@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import Book from './Book.js';
 
 class BookShelf extends Component {
+  state = { bookTitle: '', category: '' };
+  onCategoryChange = (bookTitle, newCategory) => {
+    this.setState({ bookTitle: bookTitle, category: newCategory });
+    console.log('BookShelf book ->', this.state.bookTitle);
+    console.log('BookShelf category ->', this.state.category);
+    this.props.onCategoryChange(this.state.bookTitle, this.state.category);
+  };
+
   render() {
     return (
       <div>
@@ -16,6 +24,7 @@ class BookShelf extends Component {
                     author={book.author}
                     imageUrl={book.imageUrl}
                     imageHeight={book.imageHeight}
+                    onCategoryChange={this.onCategoryChange}
                   ></Book>
                 </li>
               ))}
