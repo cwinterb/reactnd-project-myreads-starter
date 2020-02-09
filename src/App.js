@@ -78,24 +78,26 @@ class BooksApp extends React.Component {
       console.log('index not found');
     } else {
       console.log('setting state');
-      this.setState({
-        books: [
-          ...this.state.books.slice(0, index),
-          Object.assign(this.state.books[index], bookAttributes),
-          ...this.state.books.slice(index + 1),
-        ],
-      });
+      this.setState(
+        {
+          books: [
+            ...this.state.books.slice(0, index),
+            Object.assign(this.state.books[index], bookAttributes),
+            ...this.state.books.slice(index + 1),
+          ],
+        },
+        () => {
+          console.log(this.state.books);
+          console.log(this.state.books[index]);
+        },
+      );
     }
-    console.log(this.state.books);
   }
 
   onCategoryChange = (bookTitle, category) => {
-    console.log('App book -> ', bookTitle);
-    console.log('App category -> ', category);
     // const indexOfBook = this.state.books.findIndex(b => b.title === bookTitle);
     // console.log(indexOfBook);
     this.updateBook(bookTitle, { category: category });
-    console.log(this.state.books);
   };
 
   render() {

@@ -7,13 +7,17 @@ class Book extends Component {
   };
 
   handleChange = event => {
-    this.setState({
-      category: event.target.value,
-      bookTitle: this.props.bookTitle,
-    });
+    this.setState(
+      {
+        category: event.target.value,
+        bookTitle: this.props.bookTitle,
+      },
+      () => {
+        console.log('Book title ->', this.state.bookTitle);
+        console.log('Book category ->', this.state.category);
+      },
+    );
     this.props.onCategoryChange(this.props.bookTitle, event.target.value);
-    console.log('Book title ->', this.state.bookTitle);
-    console.log('Book category ->', this.state.category);
   };
 
   render() {
@@ -34,8 +38,8 @@ class Book extends Component {
                 <option value="move" disabled>
                   Move to...
                 </option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
+                <option value="currently-reading">Currently Reading</option>
+                <option value="want-to-read">Want to Read</option>
                 <option value="read">Read</option>
                 <option value="none">None</option>
               </select>
