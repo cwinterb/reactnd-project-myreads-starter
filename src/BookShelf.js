@@ -7,9 +7,8 @@ class BookShelf extends Component {
     this.setState({ bookTitle: bookTitle, category: newCategory }, () => {
       console.log('BookShelf book ->', this.state.bookTitle);
       console.log('BookShelf category ->', this.state.category);
+      this.props.onCategoryChange(this.state.bookTitle, this.state.category);
     });
-
-    this.props.onCategoryChange(this.state.bookTitle, this.state.category);
   };
 
   render() {

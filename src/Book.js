@@ -15,9 +15,9 @@ class Book extends Component {
       () => {
         console.log('Book title ->', this.state.bookTitle);
         console.log('Book category ->', this.state.category);
+        this.props.onCategoryChange(this.props.bookTitle, this.state.category);
       },
     );
-    this.props.onCategoryChange(this.props.bookTitle, event.target.value);
   };
 
   render() {

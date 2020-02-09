@@ -97,6 +97,7 @@ class BooksApp extends React.Component {
   onCategoryChange = (bookTitle, category) => {
     // const indexOfBook = this.state.books.findIndex(b => b.title === bookTitle);
     // console.log(indexOfBook);
+    console.log('book title --> ', bookTitle);
     this.updateBook(bookTitle, { category: category });
   };
 
