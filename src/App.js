@@ -81,11 +81,12 @@ class BooksApp extends React.Component {
       this.setState({
         books: [
           ...this.state.books.slice(0, index),
-          Object.assign({}, this.state.books[index], bookAttributes),
+          Object.assign(this.state.books[index], bookAttributes),
           ...this.state.books.slice(index + 1),
         ],
       });
     }
+    console.log(this.state.books);
   }
 
   onCategoryChange = (bookTitle, category) => {
