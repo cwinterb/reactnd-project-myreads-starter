@@ -22,8 +22,8 @@ class BookShelf extends Component {
                 <li key={book.id}>
                   <Book
                     bookTitle={book.title}
-                    author={book.author}
-                    imageUrl={book.imageUrl}
+                    author={book.authors}
+                    imageUrl={book.imageLinks.thumbnail}
                     imageHeight={book.imageHeight}
                     onCategoryChange={this.onCategoryChange}
                   ></Book>

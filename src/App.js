@@ -48,14 +48,15 @@ class BooksApp extends React.Component {
   onCategoryChange = (bookTitle, category) => {
     // const indexOfBook = this.state.books.findIndex(b => b.title === bookTitle);
     // console.log(indexOfBook);
-    console.log('book title --> ', bookTitle);
-    this.updateBook(bookTitle, { category: category });
-    console.log(BooksAPI.getAll);
+    console.log('app title --> ', bookTitle);
+    console.log('app category --> ', category);
+    // this.updateBook(bookTitle, { category: category });
+    BooksAPI.update(bookTitle, category);
   };
 
   searchBook = query => {
     BooksAPI.search(query).then(results => {
-      this.setState({ search: results });
+      this.setState({ search: results }, () => console.log(this.state.search));
     });
   };
 
@@ -72,14 +73,6 @@ class BooksApp extends React.Component {
                 Close
               </button>
               <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
                 <input
                   type="text"
                   placeholder="Search by title or author"
