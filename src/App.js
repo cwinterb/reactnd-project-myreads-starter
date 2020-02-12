@@ -14,6 +14,7 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false,
     books: [],
+    search: [],
   };
 
   componentDidMount() {
@@ -53,7 +54,9 @@ class BooksApp extends React.Component {
   };
 
   searchBook = query => {
-    BooksAPI.search(query);
+    BooksAPI.search(query).then(results => {
+      this.setState({ search: results });
+    });
   };
 
   render() {
@@ -85,7 +88,11 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <BookShelf
+                category="Search Results"
+                onCategoryChange={this.onCategoryChange}
+                books={this.state.search}
+              />
             </div>
           </div>
         ) : (
