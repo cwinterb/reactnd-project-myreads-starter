@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import Book from './Book.js';
 
 class BookShelf extends Component {
-  state = { bookTitle: '', category: '' };
-  onCategoryChange = (bookTitle, newCategory) => {
-    this.setState({ bookTitle: bookTitle, category: newCategory }, () => {
-      console.log('BookShelf book ->', this.state.bookTitle);
+  state = { id: '', category: '' };
+  onCategoryChange = (id, newCategory) => {
+    this.setState({ id: id, category: newCategory }, () => {
+      console.log('BookShelf id ->', this.state.id);
       console.log('BookShelf category ->', this.state.category);
-      this.props.onCategoryChange(this.state.bookTitle, this.state.category);
+      this.props.onCategoryChange(this.state.id, this.state.category);
     });
   };
 
@@ -21,10 +21,10 @@ class BookShelf extends Component {
               {this.props.books.map(book => (
                 <li key={book.id}>
                   <Book
+                    id={book.id}
                     bookTitle={book.title}
                     author={book.authors}
-                    imageUrl={book.imageLinks.thumbnail}
-                    imageHeight={book.imageHeight}
+                    imageUrl={book.imageLinks.smallThumbnail}
                     onCategoryChange={this.onCategoryChange}
                   ></Book>
                 </li>

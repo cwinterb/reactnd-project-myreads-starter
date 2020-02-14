@@ -1,5 +1,5 @@
 import React from 'react';
-// import * as BooksAPI from './BooksAPI'
+import { Route } from 'react-router-dom';
 import './App.css';
 import BookShelf from './BookShelf.js';
 import * as BooksAPI from './BooksAPI.js';
@@ -12,7 +12,6 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false,
     books: [],
     search: [],
   };
@@ -23,35 +22,36 @@ class BooksApp extends React.Component {
     });
   }
 
-  updateBook(title, bookAttributes) {
-    const index = this.state.books.findIndex(b => b.title === title);
-    if (index === -1) {
-      console.log('index not found');
-    } else {
-      console.log('setting state');
-      this.setState(
-        {
-          books: [
-            ...this.state.books.slice(0, index),
-            Object.assign(this.state.books[index], bookAttributes),
-            ...this.state.books.slice(index + 1),
-          ],
-        },
-        () => {
-          console.log(this.state.books);
-          console.log(this.state.books[index]);
-        },
-      );
-    }
-  }
+  // updateBook(title, bookAttributes) {
+  //   const index = this.state.books.findIndex(b => b.title === title);
+  //   if (index === -1) {
+  //     console.log('index not found');
+  //   } else {
+  //     console.log('setting state');
+  //     this.setState(
+  //       {
+  //         books: [
+  //           ...this.state.books.slice(0, index),
+  //           Object.assign(this.state.books[index], bookAttributes),
+  //           ...this.state.books.slice(index + 1),
+  //         ],
+  //       },
+  //       () => {
+  //         console.log(this.state.books);
+  //         console.log(this.state.books[index]);
+  //       },
+  //     );
+  //   }
+  // }
 
-  onCategoryChange = (bookTitle, category) => {
+  onCategoryChange = (id, category) => {
     // const indexOfBook = this.state.books.findIndex(b => b.title === bookTitle);
     // console.log(indexOfBook);
-    console.log('app title --> ', bookTitle);
+    console.log('app id --> ', id);
     console.log('app category --> ', category);
+    console.log('state --> ', this.state.books);
     // this.updateBook(bookTitle, { category: category });
-    BooksAPI.update(bookTitle, category);
+    BooksAPI.update(id, category);
   };
 
   searchBook = query => {
@@ -63,68 +63,76 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <button
-                className="close-search"
-                onClick={() => this.setState({ showSearchPage: false })}
-              >
-                Close
-              </button>
-              <div className="search-books-input-wrapper">
-                <input
-                  type="text"
-                  placeholder="Search by title or author"
-                  onChange={event => this.searchBook(event.target.value)}
+        {/* {this.state.showSearchPage ? ( */}
+        <Route
+          path="/search"
+          render={() => (
+            <div className="search-books">
+              <div className="search-books-bar">
+                <button
+                  className="close-search"
+                  onClick={() => this.setState({ showSearchPage: false })}
+                >
+                  Close
+                </button>
+                <div className="search-books-input-wrapper">
+                  <input
+                    type="text"
+                    placeholder="Search by title or author"
+                    onChange={event => this.searchBook(event.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="search-books-results">
+                <BookShelf
+                  category="Search Results"
+                  onCategoryChange={this.onCategoryChange}
+                  books={this.state.search}
                 />
               </div>
             </div>
-            <div className="search-books-results">
-              <BookShelf
-                category="Search Results"
-                onCategoryChange={this.onCategoryChange}
-                books={this.state.search}
-              />
+          )}
+        />
+
+        {/* ) : ( */}
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <div className="list-books-content">
+                <BookShelf
+                  category="Currently Reading"
+                  onCategoryChange={this.onCategoryChange}
+                  books={this.state.books.filter(
+                    book => book.shelf === 'currentlyReading',
+                  )}
+                />
+                <BookShelf
+                  category="Want to Read"
+                  onCategoryChange={this.onCategoryChange}
+                  books={this.state.books.filter(
+                    book => book.shelf === 'wantToRead',
+                  )}
+                />
+                <BookShelf
+                  category="Read"
+                  onCategoryChange={this.onCategoryChange}
+                  books={this.state.books.filter(book => book.shelf === 'read')}
+                />
+                <div></div>
+              </div>
+              <div className="open-search">
+                <button>Add a book</button>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              {/* /here */}
-              <BookShelf
-                category="Currently Reading"
-                onCategoryChange={this.onCategoryChange}
-                books={this.state.books.filter(
-                  book => book.category === 'currently-reading',
-                )}
-              />
-              <BookShelf
-                category="Want to Read"
-                onCategoryChange={this.onCategoryChange}
-                books={this.state.books.filter(
-                  book => book.category === 'want-to-read',
-                )}
-              />
-              <BookShelf
-                category="Read"
-                onCategoryChange={this.onCategoryChange}
-                books={this.state.books.filter(
-                  book => book.category === 'read',
-                )}
-              />
-              <div></div>
-            </div>
-            <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>
-                Add a book
-              </button>
-            </div>
-          </div>
-        )}
+          )}
+        />
+
+        {/* )} */}
       </div>
     );
   }

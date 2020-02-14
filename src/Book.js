@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI.js';
 
 class Book extends Component {
+  getBook = id => {
+    BooksAPI.get(id).then(book => {
+      console.log(book);
+      return book;
+    });
+  };
+
   state = {
     category: '',
-    bookTitle: '',
+    id: '',
   };
 
   handleChange = event => {
     this.setState(
       {
         category: event.target.value,
-        bookTitle: this.props.bookTitle,
+        id: this.props.id,
       },
       () => {
-        console.log('Book title ->', this.state.bookTitle);
+        console.log(this.state.category);
+        console.log('Book id ->', this.state.id);
         console.log('Book category ->', this.state.category);
-        this.props.onCategoryChange(this.props.bookTitle, this.state.category);
+        this.props.onCategoryChange(this.state.id, this.state.category);
       },
     );
   };
@@ -38,8 +47,8 @@ class Book extends Component {
                 <option value="move" disabled>
                   Move to...
                 </option>
-                <option value="currently-reading">Currently Reading</option>
-                <option value="want-to-read">Want to Read</option>
+                <option value="currentlyReading">Currently Reading</option>
+                <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
                 <option value="none">None</option>
               </select>
