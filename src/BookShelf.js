@@ -18,17 +18,19 @@ class BookShelf extends Component {
           <h2 className="bookshelf-title">{this.props.category}</h2>
           <div className="bookshelf-books">
             <ol className="books-grid">
-              {this.props.books.map(book => (
-                <li key={book.id}>
-                  <Book
-                    id={book.id}
-                    bookTitle={book.title}
-                    author={book.authors}
-                    imageUrl={book.imageLinks.smallThumbnail}
-                    onCategoryChange={this.onCategoryChange}
-                  ></Book>
-                </li>
-              ))}
+              {this.props.books.length > 0 &&
+                this.props.books.map(book => (
+                  <li key={book.id}>
+                    <Book
+                      id={book.id}
+                      bookTitle={book.title}
+                      author={book.authors}
+                      imageUrl={book.imageLinks}
+                      onCategoryChange={this.onCategoryChange}
+                    ></Book>
+                  </li>
+                ))}
+              {this.props.books.length < 1 && <div>No results found</div>}
             </ol>
           </div>
         </div>
