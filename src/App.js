@@ -21,17 +21,12 @@ class BooksApp extends React.Component {
   }
 
   updateBook = (id, category) => {
-    console.log('state before --> ', this.state);
     BooksAPI.update(id, category).then(() => {
       this.fetchBooks();
     });
-    console.log('state after -->', this.state);
   };
 
   onCategoryChange = (id, category) => {
-    console.log('app id --> ', id);
-    console.log('app category --> ', category);
-    console.log('state --> ', this.state.books);
     this.updateBook(id, category);
   };
 

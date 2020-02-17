@@ -21,9 +21,6 @@ class Book extends Component {
         id: this.props.id,
       },
       () => {
-        console.log(this.state.category);
-        console.log('Book id ->', this.state.id);
-        console.log('Book category ->', this.state.category);
         this.props.onCategoryChange(this.state.id, this.state.category);
       },
     );

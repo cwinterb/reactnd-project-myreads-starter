@@ -5,8 +5,6 @@ class BookShelf extends Component {
   state = { id: '', category: '' };
   onCategoryChange = (id, newCategory) => {
     this.setState({ id: id, category: newCategory }, () => {
-      console.log('BookShelf id ->', this.state.id);
-      console.log('BookShelf category ->', this.state.category);
       this.props.onCategoryChange(this.state.id, this.state.category);
     });
   };
