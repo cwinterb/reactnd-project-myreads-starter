@@ -23,6 +23,7 @@ class BookShelf extends Component {
                       id={book.id}
                       bookTitle={book.title}
                       author={book.authors}
+                      shelf={book.shelf}
                       imageUrl={book.imageLinks}
                       onCategoryChange={this.onCategoryChange}
                     ></Book>
