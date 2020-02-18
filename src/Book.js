@@ -35,7 +35,7 @@ class Book extends Component {
               className="book-cover"
               style={{
                 width: 128,
-                height: this.props.imageHeight,
+                height: 193,
                 backgroundImage: `url(${this.props.imageUrl})`,
               }}
             ></div>
