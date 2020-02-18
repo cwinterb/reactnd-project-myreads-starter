@@ -44,7 +44,7 @@ class Book extends Component {
                 onChange={this.handleChange}
                 value={this.props.shelf || 'none'}
               >
-                <option value="move" disabled="true">
+                <option value="move" disabled={true}>
                   Move to...
                 </option>
                 <option value="currentlyReading">Currently Reading</option>
