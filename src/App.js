@@ -10,9 +10,31 @@ class BooksApp extends React.Component {
     search: [],
   };
 
+  getBookShelf = async id => {
+    const book = await BooksAPI.get(id);
+    return book.shelf;
+  };
+
   fetchBooks() {
     BooksAPI.getAll().then(books => {
-      this.setState({ books });
+      this.setState({ books }, async () => {
+        let searchState = this.state.search;
+        let bookStateIds = [];
+        this.state.books.forEach(book => bookStateIds.push(book.id));
+        const promises = [];
+        searchState.forEach(async book => {
+          if (bookStateIds.includes(book.id)) {
+            promises.push(
+              BooksAPI.get(book.id).then(singleBook => {
+                let newShelf = singleBook.shelf;
+                book.shelf = newShelf;
+              }),
+            );
+          }
+        });
+        await Promise.all(promises);
+        this.setState({ search: searchState });
+      });
     });
   }
 
@@ -20,8 +42,8 @@ class BooksApp extends React.Component {
     this.fetchBooks();
   }
 
-  updateBook = (id, category) => {
-    BooksAPI.update(id, category).then(() => {
+  updateBook = async (id, category) => {
+    await BooksAPI.update(id, category).then(() => {
       this.fetchBooks();
     });
   };
@@ -30,12 +52,18 @@ class BooksApp extends React.Component {
     this.updateBook(id, category);
   };
 
-  searchBook = query => {
+  searchBook = async query => {
     query = query.trim();
     if (query.length > 0) {
-      BooksAPI.search(query).then(results => {
-        results.length > 0
-          ? this.setState({ search: results })
+      BooksAPI.search(query).then(async results => {
+        let newResults = await Promise.all(
+          results.map(async book => ({
+            ...book,
+            shelf: await this.getBookShelf(book.id),
+          })),
+        );
+        newResults.length > 0
+          ? this.setState({ search: newResults })
           : this.setState({ search: [] });
       });
     } else {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Book from './Book.js';
+// import * as BooksAPI from './BooksAPI.js';
 
 class BookShelf extends Component {
   state = { id: '', category: '' };
@@ -8,6 +9,11 @@ class BookShelf extends Component {
       this.props.onCategoryChange(this.state.id, this.state.category);
     });
   };
+
+  // getBookShelf = id => {
+  //   // BooksAPI.get(id).then(book => this.setState({}));
+  //   // BooksAPI.get(id).then(book => console.log(book));
+  // };
 
   render() {
     return (
@@ -23,7 +29,8 @@ class BookShelf extends Component {
                       id={book.id}
                       bookTitle={book.title}
                       author={book.authors}
-                      shelf={book.shelf}
+                      shelf={book.shelf || 'none'}
+                      // shelf={this.getBookShelf(book.id)}
                       imageUrl={book.imageLinks}
                       onCategoryChange={this.onCategoryChange}
                     ></Book>
