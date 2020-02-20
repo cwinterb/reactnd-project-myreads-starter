@@ -10,11 +10,6 @@ class BookShelf extends Component {
     });
   };
 
-  // getBookShelf = id => {
-  //   // BooksAPI.get(id).then(book => this.setState({}));
-  //   // BooksAPI.get(id).then(book => console.log(book));
-  // };
-
   render() {
     return (
       <div>
@@ -27,11 +22,10 @@ class BookShelf extends Component {
                   <li key={book.id}>
                     <Book
                       id={book.id}
-                      bookTitle={book.title}
-                      author={book.authors}
+                      bookTitle={book.title || 'no title'}
+                      author={book.authors || 'no author'}
                       shelf={book.shelf || 'none'}
-                      // shelf={this.getBookShelf(book.id)}
-                      imageUrl={book.imageLinks}
+                      imageUrl={book.imageLinks || ''}
                       onCategoryChange={this.onCategoryChange}
                     ></Book>
                   </li>

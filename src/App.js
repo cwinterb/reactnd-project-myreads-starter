@@ -52,22 +52,14 @@ class BooksApp extends React.Component {
     this.updateBook(id, category);
   };
 
-  searchBook = async query => {
+  searchBook = query => {
     query = query.trim();
-    if (query.length > 0) {
-      BooksAPI.search(query).then(async results => {
-        let newResults = await Promise.all(
-          results.map(async book => ({
-            ...book,
-            shelf: await this.getBookShelf(book.id),
-          })),
-        );
-        newResults.length > 0
-          ? this.setState({ search: newResults })
-          : this.setState({ search: [] });
-      });
-    } else {
+    if (query.length === 0) {
       this.setState({ search: [] });
+    } else {
+      BooksAPI.search(query).then(results =>
+        this.setState({ search: results }),
+      );
     }
   };
 
