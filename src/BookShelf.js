@@ -30,7 +30,7 @@ class BookShelf extends Component {
                     ></Book>
                   </li>
                 ))}
-              {this.props.books.length < 1 && <div>No results found</div>}
+              {this.props.books.length < 1 && <div>No results</div>}
             </ol>
           </div>
         </div>
