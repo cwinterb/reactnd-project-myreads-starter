@@ -16,25 +16,24 @@ class BooksApp extends React.Component {
   };
 
   fetchBooks() {
-    BooksAPI.getAll().then(books => {
-      this.setState({ books }, async () => {
-        let searchState = this.state.search;
-        let bookStateIds = [];
-        this.state.books.forEach(book => bookStateIds.push(book.id));
-        const promises = [];
-        searchState.forEach(async book => {
-          if (bookStateIds.includes(book.id)) {
-            promises.push(
-              BooksAPI.get(book.id).then(singleBook => {
-                let newShelf = singleBook.shelf;
-                book.shelf = newShelf;
-              }),
-            );
-          }
-        });
-        await Promise.all(promises);
-        this.setState({ search: searchState });
+    BooksAPI.getAll().then(async books => {
+      this.setState({ books });
+      let search = this.state.search;
+      let bookStateIds = [];
+      books.forEach(book => bookStateIds.push(book.id));
+      console.log(bookStateIds);
+      const promises = [];
+      search.forEach(book => {
+        if (bookStateIds.includes(book.id)) {
+          promises.push(
+            BooksAPI.get(book.id).then(singleBook => {
+              book.shelf = singleBook.shelf;
+            }),
+          );
+        }
       });
+      await Promise.all(promises);
+      this.setState({ search: search });
     });
   }
 
@@ -57,9 +56,27 @@ class BooksApp extends React.Component {
     if (query.length === 0) {
       this.setState({ search: [] });
     } else {
-      BooksAPI.search(query).then(results =>
-        this.setState({ search: results }),
-      );
+      let collection = this.state.books;
+      let collectionIds = [];
+      collection.forEach(book => {
+        collectionIds.push(book.id);
+      });
+      const promises = [];
+      BooksAPI.search(query).then(results => {
+        if (results.length > 0) {
+          results.forEach(async result => {
+            if (collectionIds.includes(result.id)) {
+              promises.push(
+                BooksAPI.get(result.id).then(book => {
+                  result.shelf = book.shelf;
+                }),
+              );
+            }
+            await Promise.all(promises);
+            this.setState({ search: results });
+          });
+        }
+      });
     }
   };
 
